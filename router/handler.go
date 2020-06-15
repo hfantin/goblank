@@ -4,16 +4,16 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/hfantin/goblank/autoconfig"
+	"github.com/hfantin/goblank/config"
 )
 
 func InfoHandler(w http.ResponseWriter, r *http.Request) {
 	build := make(map[string]interface{})
 	status := make(map[string]interface{})
-	status["group"] = autoconfig.Env.Group
-	status["name"] = autoconfig.Env.Name
-	status["version"] = autoconfig.Env.Version
-	status["time"] = currentTime
+	status["group"] = config.Env.Group
+	status["name"] = config.Env.Name
+	status["version"] = config.Env.Version
+	status["time"] = config.Env.InicializationTime
 	build["build"] = status
 	sendJson(w, http.StatusOK, build)
 

@@ -2,10 +2,11 @@ package router
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gorilla/mux"
 )
+
+const staticFilesDir = "public/static/"
 
 type Route struct {
 	Name        string
@@ -31,12 +32,6 @@ var routes = Routes{
 	},
 }
 
-var currentTime time.Time
-
-func init() {
-	currentTime = time.Now()
-}
-
 func New() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
@@ -46,7 +41,7 @@ func New() *mux.Router {
 			Name(route.Name).
 			Handler(route.HandlerFunc)
 	}
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/static/")))
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir(staticFilesDir)))
 	// router.NotFoundHandler = http.HandlerFunc(NotFound)
 
 	return router
